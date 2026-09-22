@@ -1,0 +1,37 @@
+﻿"""Pipeline base para extracción y preprocesamiento de datos."""
+from typing import Tuple
+import pandas as pd
+from sklearn.datasets import load_iris
+from sklearn.preprocessing import StandardScaler
+
+
+def load_and_preprocess_dataset() -> Tuple[pd.DataFrame, pd.Series]:
+    """Carga Iris, valida ausencia de duplicados y separa variables."""
+    dataset = load_iris(as_frame=True)
+    df: pd.DataFrame = dataset.frame
+
+    df_clean = df.drop_duplicates().dropna()
+
+    features = df_clean[dataset.feature_names]
+    target = df_clean["target"]
+
+    return features, target
+
+
+def calculate_feature_metrics(data: pd.DataFrame) -> pd.DataFrame:
+    """Calcula estadísticas descriptivas básicas de las características."""
+    return data.describe().T[["mean", "std", "min", "max"]]
+
+
+def scale_features(df: pd.DataFrame) -> pd.DataFrame:
+    """Aplica normalización estándar usando StandardScaler de Scikit-Learn.
+    
+    Args:
+        df: DataFrame con las características a normalizar.
+        
+    Returns:
+        DataFrame con las características normalizadas (media=0, desviación estándar=1).
+    """
+    scaler = StandardScaler()
+    scaled_data = scaler.fit_transform(df)
+    return pd.DataFrame(scaled_data, columns=df.columns, index=df.index)
