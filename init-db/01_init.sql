@@ -21,4 +21,9 @@ VALUES
     ('CUST-1006', 23, 18500.00, 580, 3500.00, TRUE, 'Costa'),
     ('CUST-1007', 41, 62000.00, 740, 18000.00, FALSE, 'Costa'),
     ('CUST-1008', 60, 95000.00, NULL, 15000.00, FALSE, 'Insular'),
-    ('CUST-1009', 38, 51000.00, 645, 11000.00, TRUE, 'Sierra');
+    ('CUST-1009', 38, 51000.00, 645, 11000.00, TRUE, 'Sierra'),
+    ('CUST-1010', NULL, 28000.00, 600, 7000.00, FALSE, 'Costa'),
+    ('CUST-1011', 31, NULL, 690, 13000.00, FALSE, 'Sierra'),
+    ('CUST-1012', NULL, NULL, 550, 4500.00, TRUE, 'Oriente'),
+    ('CUST-1013', 47, 71000.00, 705, 20000.00, FALSE, 'Insular'),
+    ('CUST-1014', NULL, 39000.00, 660, 9000.00, FALSE, 'Costa');
