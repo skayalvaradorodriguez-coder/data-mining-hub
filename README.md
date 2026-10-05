@@ -33,3 +33,25 @@ docker compose build analytics
 docker compose up -d
 docker exec -it dm_analytics pytest -v tests/
 ```
+
+## Unidad 2 - Tema 3: Limpieza y calidad de datos
+
+Se implementó `apps/analytics/src/cleaning.py` con el pipeline de calidad de datos
+(Fase 3 de CRISP-DM): normalización de inconsistencias, imputación de valores
+faltantes (media, mediana, moda y KNNImputer) y tratamiento de outliers mediante
+acotamiento (capping) mediante el rango intercuartílico (IQR). El resultado se
+persiste en la tabla `customer_credit_clean` dentro de PostgreSQL.
+
+### Reflexión: ¿por qué capping y no eliminación de outliers?
+
+En el contexto de riesgo crediticio, eliminar directamente los registros con
+`annual_income` o `loan_amount` atípicos implicaría descartar precisamente a los
+clientes con perfiles financieros extremos -quienes, en la práctica, suelen ser
+los casos más relevantes para un modelo de scoring de crédito (clientes de muy
+alto o muy bajo poder adquisitivo). Perder esas observaciones reduce el tamaño
+de la muestra, puede sesgar el dataset hacia el cliente "promedio" y le resta al
+modelo la capacidad de aprender a distinguir perfiles de riesgo poco comunes
+pero reales. El capping, en cambio, preserva el 100% de los registros y la señal
+de que ese cliente es atípico (al dejarlo en el límite superior/inferior del IQR),
+sin que un solo valor extremo distorsione desproporcionadamente la media y la
+varianza del conjunto de entrenamiento.
